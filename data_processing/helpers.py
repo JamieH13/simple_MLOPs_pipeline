@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import pandas as pd
+import sys
 
 def read_file(filepath):
 
@@ -11,7 +12,7 @@ def read_file(filepath):
         data = pd.read_parquet(filepath)
 
     else:
-        print('Unrecognised filetype')
+        sys.exit('Unrecognised file type. Please check config file')
 
     return data
 
@@ -19,7 +20,7 @@ def read_file(filepath):
 def upload(final_dataset, config):
     name = config['dataset_creation']['dataset_name']
     name += datetime.now().strftime("%Y%m%d-%H%M%S")
-    name =+ '.csv'
+    name += '.csv'
 
     output_path = os.path.join(config['dataset_creation']['output_path'], name)
 

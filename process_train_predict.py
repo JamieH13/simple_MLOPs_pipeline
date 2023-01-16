@@ -16,9 +16,8 @@ parser.add_argument(
 parser.add_argument(
     "-c", "--config", type=str, help="Config file",
 )
-
 args = parser.parse_args()
-print(args.config)
+
 with open(args.config, 'r') as config_file:
     config = json.load(config_file)
 
@@ -32,7 +31,6 @@ credit_pipe = Pipeline([
 ])
 
 labels = credit_pipe.fit_transform(credit_records)
-
 
 print('Reading file {}'.format(config['dataset_creation']['application_records_fp']))
 application_records = read_file(config['dataset_creation']['application_records_fp'])
