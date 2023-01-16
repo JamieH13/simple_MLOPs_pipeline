@@ -6,7 +6,8 @@
     "dataset_name": "labelled_dataset"
   },
   "training": {
-    "filepath": "hello",
-    "test": "pass"
+    "labelled_dataset": "",
+    "n_estimators": 100,
+    "min_samples_split": 2
   }
 }
