@@ -42,7 +42,7 @@ This stage of the pipeline is accessed using
 python process_train_predict.py -p "data_pipeline" -c data_pipeline_config.json
 ```
 ### Training
-Once the labelled dataset has been created, this can be piped into the model training stage using the train config. This stage reads in the dataset, and then trains a classifer (currently and random forest) on the data. The final model is then saved and uploaded.
+Once the labelled dataset has been created, this can be piped into the model training stage using the train config. This stage reads in the dataset, and then trains a classifer (currently a random forest) on the data. The final model is then saved and uploaded.
 ```
 {
     "labelled_dataset_fp": "processed_data/labelled_dataset_20230118-012423.csv",
