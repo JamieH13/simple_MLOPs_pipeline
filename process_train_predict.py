@@ -82,9 +82,9 @@ if args.pipeline == 'train':
 
     model.fit(X_train, Y_train)
 
-    model_summary(model, X_train, Y_train, X_test, Y_test)
+    train_acc, train_auc, test_acc, test_auc = model_summary(model, X_train, Y_train, X_test, Y_test)
 
-    upload_model(model, config)
+    upload_model(model, config, train_acc, train_auc, test_acc, test_auc)
 
 ################################ MODEL PREDICTIONS ################################
 
