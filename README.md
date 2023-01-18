@@ -79,7 +79,7 @@ python process_train_predict.py -p "predict" -c predict_config.json
 
 Processing methods for the dataset are stored in **data_processing/methods.py**. These are stored as classes with fit and transform functions. More classes can be added in the same fashion for new encodings and scalings.
 
-## TO DO
+## Future Ideas
 - More tests - At the moment there is only one test for demonstration, in the future all of our methods should have unit tests. This should then be expanded to test our pipelines end to end.
 - A log for datasets, could include summary statistics for each column. This would helped identify any incorrect data which has made it into the dataset.
 - Ability to add your own comments to the model and dataset logs
