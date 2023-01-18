@@ -1,0 +1,6 @@
+{
+    "model_fp": "models/sample_model_20230118-012729",
+    "labelled_dataset_fp": "processed_data/labelled_dataset_20230118-012423.csv",
+    "output_path": "predictions",
+    "predictions_name": "scored_dataset_"
+}

@@ -1,0 +1,7 @@
+{
+    "labelled_dataset_fp": "processed_data/labelled_dataset_20230118-012423.csv",
+    "output_path": "models",
+    "model_name": "sample_model_",
+    "n_estimators": 100,
+    "min_samples_split": 2
+}

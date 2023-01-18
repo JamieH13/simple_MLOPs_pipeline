@@ -11,7 +11,7 @@ class NameDropper(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, data):
-        return data.drop(columns=self.cols)
+        return data.drop(columns=self.cols, errors='ignore')
 
 
 class DataLabeler(BaseEstimator, TransformerMixin):

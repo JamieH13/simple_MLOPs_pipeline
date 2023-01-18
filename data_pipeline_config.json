@@ -1,0 +1,6 @@
+{
+  "application_records_fp": "credit_card_data/application_record.csv",
+  "credit_records_fp": "credit_card_data/credit_record.csv",
+  "output_path": "processed_data",
+  "dataset_name": "labelled_dataset_"
+}
