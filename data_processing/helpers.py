@@ -2,10 +2,24 @@ from datetime import datetime
 import os
 import pandas as pd
 import sys
+import boto3
 
 def read_file(filepath):
 
-    if filepath.split('.')[-1] == 'csv':
+    if 's3' in filepath:
+        AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+        AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+        AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN")
+
+        data = pd.read_csv(filepath,
+            storage_options={
+                "key": AWS_ACCESS_KEY_ID,
+                "secret": AWS_SECRET_ACCESS_KEY,
+                "token": AWS_SESSION_TOKEN,
+            },
+        )
+
+    elif filepath.split('.')[-1] == 'csv':
         data = pd.read_csv(filepath)
 
     elif filepath.split('.')[-1] == 'parquet':
