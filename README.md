@@ -28,7 +28,7 @@ python -m pytest
 
 ## Example run
 ### Data Pipeline
-The data_pipeline config is used to specify the datasets to be fed in and processed, and where the output files are stored. This pipeline ingests the files, processes the columns ready for training, labels the data, and saves the output ready for the model training.
+The data_pipeline config is used to specify the datasets to be fed in and processed, and where the output files are stored. This pipeline ingests the files, processes the columns ready for training, labels the data, and saves the output ready for the model training. File reading currently supports local and S3 CSVs, and local parquets.
 ```
 {
   "application_records_fp": "credit_card_data/application_record.csv",
