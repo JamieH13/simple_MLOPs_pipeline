@@ -2,11 +2,12 @@ from data_processing.methods import *
 from data_processing.helpers import *
 
 from modelling.helpers import *
+
+from sklearn.pipeline import Pipeline
+
 import argparse
 import json
 import joblib
-from sklearn.pipeline import Pipeline
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -43,7 +44,7 @@ if args.pipeline == 'data_pipeline':
     application_records = read_file(config['application_records_fp'])
 
     print('Processing application records')
-    applications_pipe=Pipeline([
+    applications_pipe = Pipeline([
         ('Join Labels', LabelJoiner(labels=labels)),
         ('Test Train Split', TrainTestSplit()),
         ('Scale Income', MinMaxScaler('AMT_INCOME_TOTAL')),
@@ -52,12 +53,13 @@ if args.pipeline == 'data_pipeline':
                                               'NAME_FAMILY_STATUS',
                                               'NAME_HOUSING_TYPE',
                                               'OCCUPATION_TYPE'])),
-        ('Gender Map', ColumnMapper(col='CODE_GENDER', mapper={'M':1, 'F':0})),
-        ('Car Map', ColumnMapper(col='FLAG_OWN_CAR', mapper={'Y':1, 'N':0})),
-        ('Realty Map', ColumnMapper(col='FLAG_OWN_REALTY', mapper={'Y':1, 'N':0})),
+        ('Gender Map', ColumnMapper(col='CODE_GENDER', mapper={'M': 1, 'F': 0})),
+        ('Car Map', ColumnMapper(col='FLAG_OWN_CAR', mapper={'Y': 1, 'N': 0})),
+        ('Realty Map', ColumnMapper(col='FLAG_OWN_REALTY', mapper={'Y': 1, 'N': 0})),
         ('Drop Duplicates', DropDuplicates(col='ID'))
     ])
 
+    # Transform and fit columns
     labelled_dataset = applications_pipe.fit_transform(application_records)
 
     upload_dataset(labelled_dataset, config)
@@ -69,10 +71,11 @@ if args.pipeline == 'train':
     labelled_dataset = read_file(config['labelled_dataset_fp'])
 
     print('Training Model')
-    train_pipeline=Pipeline([
+    train_pipeline = Pipeline([
         ('Drop Columns', NameDropper(cols=['FLAG_MOBIL', 'ID', 'train', 'label']))
     ])
 
+    # Split dataset into training and test sets
     X_train, Y_train, X_test, Y_test = test_train_split(labelled_dataset)
 
     X_train = train_pipeline.fit_transform(X_train)
@@ -84,6 +87,7 @@ if args.pipeline == 'train':
 
     train_acc, train_auc, test_acc, test_auc = model_summary(model, X_train, Y_train, X_test, Y_test)
 
+    # Save model and log metrics
     upload_model(model, config, train_acc, train_auc, test_acc, test_auc)
 
 ################################ MODEL PREDICTIONS ################################
@@ -99,18 +103,10 @@ if args.pipeline == 'predict':
         ('Drop Columns', NameDropper(cols=['FLAG_MOBIL', 'ID', 'train', 'label']))
     ])
 
+    # Remove columns from dataset before predicting
     prediction_dataset = prediction_pipeline.fit_transform(labelled_dataset)
 
     print('Generating Predictions')
     labelled_dataset['prediction'] = model.predict_proba(prediction_dataset)[:, 1]
 
     upload_predictions(labelled_dataset, config)
-
-
-
-
-
-
-
-
-

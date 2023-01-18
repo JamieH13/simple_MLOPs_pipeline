@@ -2,9 +2,11 @@ from datetime import datetime
 import os
 import pandas as pd
 import sys
-import boto3
 
 def read_file(filepath):
+    """
+    Read file into a pandas dataframe. Currently supports local or S3 CSVs, or local parquets
+    """
 
     if 's3' in filepath:
         AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
@@ -32,6 +34,10 @@ def read_file(filepath):
 
 
 def upload_dataset(final_dataset, config):
+    """
+    Saves processed dataset.
+    """
+
     name = config['dataset_name']
     name += datetime.now().strftime("%Y%m%d-%H%M%S")
     name += '.csv'

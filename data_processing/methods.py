@@ -3,6 +3,11 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 
 class NameDropper(BaseEstimator, TransformerMixin):
+    """
+    Drops columns from dataframe
+    Args:
+        cols: list of columns to drop
+    """
 
     def __init__(self, cols):
         self.cols = cols
@@ -15,6 +20,9 @@ class NameDropper(BaseEstimator, TransformerMixin):
 
 
 class DataLabeler(BaseEstimator, TransformerMixin):
+    """
+    Generates binary labels for training, according to the debt definition.
+    """
 
     def __init__(self, debt_def=None):
         if debt_def is None:
@@ -42,6 +50,11 @@ class DataLabeler(BaseEstimator, TransformerMixin):
 
 
 class OneHotEncode(BaseEstimator, TransformerMixin):
+    """
+    One hot encodes columns
+    Args:
+        cols: list of columns to encode
+    """
 
     def __init__(self, cols):
         self.cols = cols
@@ -59,6 +72,11 @@ class OneHotEncode(BaseEstimator, TransformerMixin):
 
 
 class LabelJoiner(BaseEstimator, TransformerMixin):
+    """
+    Joins binary labels onto dataset using overlapping ID column
+    Args:
+        labels: dataframe of ID and labels
+    """
 
     def __init__(self, labels):
         self.labels = labels
@@ -72,6 +90,12 @@ class LabelJoiner(BaseEstimator, TransformerMixin):
 
 
 class ColumnMapper(BaseEstimator, TransformerMixin):
+    """
+    Replace values in a column with others
+    Args:
+        col: column to replace values in
+        mapper: dictionary of mapping
+    """
 
     def __init__(self, col, mapper):
         self.mapper = mapper
@@ -86,6 +110,11 @@ class ColumnMapper(BaseEstimator, TransformerMixin):
 
 
 class MinMaxScaler(BaseEstimator, TransformerMixin):
+    """
+    Scale all values in a column to between 0 and 1
+    Args:
+        col: column to scale
+    """
 
     def __init__(self, col):
         self.col = col
@@ -103,6 +132,11 @@ class MinMaxScaler(BaseEstimator, TransformerMixin):
 
 
 class DropDuplicates(BaseEstimator, TransformerMixin):
+    """
+    Drop duplicates entries in table
+    Args:
+        col: list of columns to drop duplicates based on
+    """
 
     def __init__(self, col):
         self.col = col
@@ -116,8 +150,13 @@ class DropDuplicates(BaseEstimator, TransformerMixin):
 
 
 class TrainTestSplit(BaseEstimator, TransformerMixin):
+    """
+    Generate a 'train' column which flags whether an entry is train, test or unlabelled
+    Args:
+        training_size: fraction of entries that are in the traing set
+    """
 
-    def __init__(self, training_size=0.3):
+    def __init__(self, training_size=0.7):
         self.training_size = training_size
 
     def fit(self, data, y=None):
@@ -129,7 +168,7 @@ class TrainTestSplit(BaseEstimator, TransformerMixin):
         num_labelled = data.label.notnull().sum()
         num_unlabelled = data.label.isna().sum()
 
-        training = np.random.choice(a=[0, 1], size=num_labelled, p=[self.training_size, 1 - self.training_size])
+        training = np.random.choice(a=[1, 0], size=num_labelled, p=[self.training_size, 1 - self.training_size])
 
         training = np.pad(training, (0, num_unlabelled), constant_values=-1)
 

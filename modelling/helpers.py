@@ -8,6 +8,10 @@ import pandas as pd
 
 
 def test_train_split(dataset):
+    """
+    Splits the dataset into training and test sets, using the binary train column.
+    """
+
     X_train = dataset[dataset.train == 1]
     Y_train = dataset[dataset.train == 1]['label']
 
@@ -18,6 +22,9 @@ def test_train_split(dataset):
 
 
 def load_model(config):
+    """
+    Generates the sklearn model object using the parameters specified in the config.
+    """
     model = RandomForestClassifier(n_estimators=config['n_estimators'],
                                    min_samples_split=config['min_samples_split'])
 
@@ -25,6 +32,9 @@ def load_model(config):
 
 
 def log_model(output_path, config, train_acc, train_auc, test_acc, test_auc):
+    """
+    Logs the model parameters and metrics.
+    """
     log = pd.read_csv('models/model_log.csv')
 
     log.loc[len(log)] = [config['labelled_dataset_fp'],
@@ -40,6 +50,10 @@ def log_model(output_path, config, train_acc, train_auc, test_acc, test_auc):
 
 
 def upload_model(model, config, train_acc, train_auc, test_acc, test_auc):
+    """
+    Save model weights.
+    """
+
     name = config['model_name']
     name += datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -53,6 +67,10 @@ def upload_model(model, config, train_acc, train_auc, test_acc, test_auc):
 
 
 def model_summary(model, X_train, Y_train, X_test, Y_test):
+    """
+    Calculate model metrics and print summary.
+    """
+
     train_acc = model.score(X_train, Y_train)
     train_auc = roc_auc_score(Y_train, model.predict_proba(X_train)[:, 1])
 
@@ -69,6 +87,9 @@ def model_summary(model, X_train, Y_train, X_test, Y_test):
 
 
 def upload_predictions(predictions, config):
+    """
+    Save dataset with new predictions.
+    """
     name = config['predictions_name']
     name += datetime.now().strftime("%Y%m%d-%H%M%S")
     name += '.csv'
