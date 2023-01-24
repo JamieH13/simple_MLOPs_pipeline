@@ -1,6 +1,6 @@
-# WovenLight Take Home Task - Jamie Howie
+# A simple MLOPS pipeline
 
-Take home task from WovenLight. This a lightweight processing pipeline for a new analytics project.
+This a lightweight processing pipeline for a new analytics project. This aims to show the principles of repeatable experiments, maintainable code, data versioning etc.
 
 The dataset is credit card approval data, available from Kaggle [here](https://www.kaggle.com/datasets/rikdifos/credit-card-approval-prediction)
 
@@ -8,7 +8,7 @@ The dataset is credit card approval data, available from Kaggle [here](https://w
 
 Clone the repository to your local machine:
 ```
-https://github.com/JamieH13/WovenLight_task_Jamie.git
+https://github.com/JamieH13/simple_MLOPs_pipeline.git
 ```
 
 Create a new python environment using:
